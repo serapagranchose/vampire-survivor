@@ -44,6 +44,8 @@ class Player(pygame.sprite.Sprite) :
         self.sprite = sprites[sprite_index]
         self.animation_count += 1
 
+        self.color = ((255, 0, 0))
+
 
     def check_col(self, obstacle):
         if  ((
