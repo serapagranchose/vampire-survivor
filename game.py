@@ -1,75 +1,61 @@
-from globals import *
-from asyncio import sleep
+from game_loop import GameLoop
+from game_loop import GameLoop
+from os.path import join
 from obstacle import Obstacle
-from player import Player
 from background import Background
+from globals import *
+from pause_menu import pause_menu
 import pygame
 
-pygame.init()
+# def clean(score):
+#     for ob in obs:
+#         if ob.entity.bottom >= (SCREEN_HEIGHT) :
+#             obs.remove(ob)
+#             score += 1
+#     return score
+
+# pygame.display.set_caption(f'Score : ')
 
 score = 0
 
-def clean(score):
-    for ob in obs:
-        if ob.entity.bottom >= (SCREEN_HEIGHT) :
-            obs.remove(ob)
-            score += 1
-    return score
+# space = pygame.Rect((0, 400, ZONE_WIDTH, ZONE_HEIGHT))
+# font = pygame.font.SysFont('inkfree',30,italic=True,bold=True)#try inkfree, georgia,impact,dubai,arial
+
+# font.set_underline(True)
+# text = font.render('Hello Everyone!',True,(255,255,255))#This creates a new Surface with the specified text rendered on it
+# textrect = text.get_rect()
+def launch_game(screen, sprite_sheet_image, load_sprite_sheets, flip):
+    gameloop = GameLoop(sprite_sheet_image, load_sprite_sheets, flip)
+    gameloop.addEnemy(Obstacle())
+    run = True
+    tick = 0
+    while run :
+        # text = font.render(f'Score : {score}',True,(255,255,255))
+
+        # screen.blit(text, textrect)
+        tick = tick + 1 if tick < 1000 else 0
+
+        # if (tick % 10) == 0 :
+        #     for ob in obs :
+        #         ob.update()
+        #         if player.check_col(ob.entity) :
+        #             run = True
+
+        # if (tick == -1):
+        #     obs.append(Obstacle())
+        gameloop.tick(tick)
+
+        gameloop.player.move(pygame.key.get_pressed())
+
+        # score = clean(score)
+        # pygame.draw.rect(screen, (2, 2, 2), space)
     
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption(f'Score : ')
-clock = pygame.time.Clock()
-
-player = Player(pygame.Rect((400, 500, PLAYER_WIDTH, PLAYER_HEIGHT)))
-background = Background(0, 0, pygame.Rect((0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)))
-space = pygame.Rect((0, 400, ZONE_WIDTH, ZONE_HEIGHT))
-font = pygame.font.SysFont('inkfree',30,italic=True,bold=True)#try inkfree, georgia,impact,dubai,arial
-
-font.set_underline(True)
-text = font.render('Hello Everyone!',True,(255,255,255))#This creates a new Surface with the specified text rendered on it
-textrect = text.get_rect()
-tmp = pygame.Rect((50, SCREEN_HEIGHT - 125, 50, 50))
-pygame.Rect((400, 500, PLAYER_WIDTH, PLAYER_HEIGHT)).bottomleft
-
-
-run = True
-tick = 0
-obs = []
-
-while run :
-    background.draw(screen)
-    text = font.render(f'Score : {score}',True,(255,255,255))
-
-    screen.blit(text, textrect)
-    tick = tick + 1 if tick < 30 else 0
-
-    if (tick % 10) == 0 :
-        for ob in obs :
-            ob.update()
-            if player.check_col(ob.entity) :
+        gameloop.display(screen)
+        
+        for event in pygame.event.get() : 
+            if event.type == pygame.QUIT :
                 run = False
-
-    if (tick == 0):
-        obs.append(Obstacle())
-    player.move(pygame.key.get_pressed())
-    background.move(pygame.key.get_pressed())
-
-    score = clean(score)
-    pygame.draw.rect(screen, (2, 2, 2), space)
-    for ob in obs : 
-        pygame.draw.rect(screen, ob.color, ob.entity)
-    
-    pygame.draw.rect(screen, (255, 0, 0), player.entity)
-
-    for event in pygame.event.get() : 
-        if event.type == pygame.QUIT :
-            run = False
-
-  
-    pygame.display.update()
-
-    clock.tick(180)
-
-print(score)
-pygame.quit()
-
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE or event.key == pygame.K_ESCAPE:
+                    if pause_menu(gameloop.screen):
+                        run = False
