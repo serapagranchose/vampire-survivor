@@ -20,6 +20,7 @@ class GameLoop :
     
 
     def tick(self, tick) :
+        res = False
         key = pygame.key.get_pressed()
         self.move(key)
         
@@ -29,8 +30,14 @@ class GameLoop :
         if tick % 8 is 0 :
             for enemy in self.enemy : 
                 enemy.updatePos(self.offset)
+                res = self.player.check_col(enemy.entity)
+                if (res) : 
+                    break
+                print(res)
             self.getDammage()
             self.kill()
+        return res
+            
 
     def move(self, key) :
         if key[pygame.K_z] == True or key[pygame.K_UP] == True:
@@ -54,7 +61,6 @@ class GameLoop :
     def getDammage(self) : 
         for enemy in self.enemy : 
             dist =  sqrt((enemy.x - ( SCREEN_WIDTH/2 - self.offset[0]))**2 + (enemy.y - ( SCREEN_HEIGHT/2 - self.offset[1]))**2)
-            print(dist)
             if (dist < 150) : 
                 enemy.hp -= 5
 

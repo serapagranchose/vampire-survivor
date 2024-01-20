@@ -43,9 +43,10 @@ while run :
 
     # if (tick == -1):
     #     obs.append(Obstacle())
-    gameloop.tick(tick)
+    res =  gameloop.tick(tick)
 
-
+    if (res) : 
+        break
 
     # score = clean(score)
     # pygame.draw.rect(screen, (2, 2, 2), space)
@@ -60,6 +61,5 @@ while run :
     
 
 
-print(score)
 pygame.quit()
 
