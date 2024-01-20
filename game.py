@@ -1,7 +1,8 @@
 from game_loop import GameLoop
-from globals import *
-from asyncio import sleep
+from game_loop import GameLoop
+from os.path import join
 from obstacle import Obstacle
+from globals import *
 from player import Player
 from pause_menu import pause_menu
 import pygame

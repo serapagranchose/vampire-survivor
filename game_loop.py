@@ -1,5 +1,6 @@
 from math import *
 import pygame
+from background import Background
 from globals import *
 from obstacle import Obstacle
 from player import Player
@@ -13,6 +14,7 @@ class GameLoop :
         self.clock =  pygame.time.Clock()
         self.fps = 120
         self.offset = pygame.math.Vector2(0, 0)
+        self.background = Background()
 
 
     def addEnemy(self, enemy) :
@@ -20,17 +22,23 @@ class GameLoop :
     
 
     def tick(self, tick) :
+        res = False
         key = pygame.key.get_pressed()
         self.move(key)
         
-        if (len(self.enemy) < 10) : 
+        if (len(self.enemy) < MAX_ENEMY) : 
             self.addEnemy(Obstacle())
 
         if tick % 8 is 0 :
             for enemy in self.enemy : 
                 enemy.updatePos(self.offset)
+                res = self.player.check_col(enemy.entity)
+                if (res) : 
+                    break
             self.getDammage()
             self.kill()
+        return res
+            
 
     def move(self, key) :
         if key[pygame.K_z] == True or key[pygame.K_UP] == True:
@@ -44,22 +52,27 @@ class GameLoop :
 
 
     def display(self) : 
+
         pygame.display.update()
         self.screen.fill((0,0,0))
+        self.display_background()
         pygame.draw.rect(self.screen, self.player.color, self.player.entity)
         for enemy in self.enemy :
             pygame.draw.rect(self.screen, enemy.getColor(), enemy.entity)
         self.clock.tick(self.fps)
+      
+
+    def display_background(self) :
+        for tile in self.background.tiles:
+            self.screen.blit(self.background.image, tuple(map(lambda i, j: i + j, tile, (self.offset[0], self.offset[1]))))
 
     def getDammage(self) : 
-        py, px =  SCREEN_WIDTH/2 - self.offset[0] , SCREEN_HEIGHT/2 - self.offset[1]
         for enemy in self.enemy : 
-            dist =  sqrt((enemy.entity.x - px)**2 + (enemy.entity.y - py)**2)
+            dist =  sqrt((enemy.x - ( SCREEN_WIDTH/2 - self.offset[0]))**2 + (enemy.y - ( SCREEN_HEIGHT/2 - self.offset[1]))**2)
             if (dist < 150) : 
                 enemy.hp -= 5
 
     def kill(self) : 
-        toRemove = []
         for enemy in self.enemy:
             if enemy.hp <= 0:
                 self.enemy.remove(enemy)
