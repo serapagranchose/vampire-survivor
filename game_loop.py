@@ -4,7 +4,7 @@ from background import Background
 from globals import *
 from obstacle import Obstacle
 from player import Player
-from shoot import Bullet
+from bullet import Bullet
 
 
 red = 255,0,0
@@ -13,6 +13,7 @@ red = 255,0,0
 class GameLoop : 
     def __init__(self) :
         self.enemy = []
+        self.proj = []
         self.player = Player(pygame.Rect((SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, PLAYER_WIDTH, PLAYER_HEIGHT)))
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.clock =  pygame.time.Clock()
@@ -32,8 +33,11 @@ class GameLoop :
         
         if (len(self.enemy) < MAX_ENEMY) : 
             self.addEnemy(Obstacle())
-
+        if key[pygame.K_SPACE] :
+            self.create_bullet()
         if tick % 8 is 0 :
+            for proj in self.proj : 
+                proj.move()
             for enemy in self.enemy : 
                 enemy.updatePos(self.offset)
                 res = self.player.check_col(enemy.entity)
@@ -56,13 +60,14 @@ class GameLoop :
 
 
     def display(self) : 
-
         pygame.display.update()
         self.screen.fill((0,0,0))
         self.display_background()
         pygame.draw.rect(self.screen, self.player.color, self.player.entity)
         for enemy in self.enemy :
             pygame.draw.rect(self.screen, enemy.getColor(), enemy.entity)
+        for proj in self.proj : 
+            proj.draw(self.screen)
         self.clock.tick(self.fps)
       
 
@@ -82,7 +87,7 @@ class GameLoop :
                 self.enemy.remove(enemy)
 
     def create_bullet(self) :
-        Bullet(red, 2, 2, 20,20, 20, 10,10)
+        self.proj.append(Bullet(2, 2, 20,20, 20, 10,10))
      
 
 
