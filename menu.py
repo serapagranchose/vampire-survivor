@@ -1,6 +1,6 @@
 from globals import *
 import pygame
-import button
+from button import *
 from game import *
 
 pygame.init()
@@ -21,18 +21,18 @@ def main_menu():
 
     button_space = play_img.get_height() * 0.75
     play_button_height = (SCREEN_HEIGHT / 4)
-    play_button = button.Button(SCREEN_WIDTH * 0.5, play_button_height, play_img, play_img_colored, button_scale)
+    play_button = Button(SCREEN_WIDTH * 0.5, play_button_height, play_img, play_img_colored, button_scale)
     play_button.selected = True
 
     settings_img = pygame.image.load("./assets/buttons/menu/large/regular/Settings.png").convert_alpha()
     settings_img_colored = pygame.image.load("./assets/buttons/menu/large/colored/Settings.png").convert_alpha()
     settings_button_height = play_button_height + button_space
-    settings_button = button.Button(SCREEN_WIDTH * 0.5, settings_button_height, settings_img, settings_img_colored, button_scale)
+    settings_button = Button(SCREEN_WIDTH * 0.5, settings_button_height, settings_img, settings_img_colored, button_scale)
 
     quit_img = pygame.image.load("./assets/buttons/menu/large/regular/Quit.png").convert_alpha()
     quit_img_colored = pygame.image.load("./assets/buttons/menu/large/colored/Quit.png").convert_alpha()
     quit_button_height = settings_button_height + button_space
-    quit_button = button.Button(SCREEN_WIDTH * 0.5, quit_button_height, quit_img, quit_img_colored, button_scale)
+    quit_button = Button(SCREEN_WIDTH * 0.5, quit_button_height, quit_img, quit_img_colored, button_scale)
 
     buttons = [play_button, settings_button, quit_button]
     selected_index = 0

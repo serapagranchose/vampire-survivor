@@ -3,7 +3,9 @@ from globals import *
 from asyncio import sleep
 from obstacle import Obstacle
 from player import Player
+from pause_menu import pause_menu
 import pygame
+
 
 # def clean(score):
 #     for ob in obs:
@@ -52,3 +54,7 @@ def launch_game():
         for event in pygame.event.get() : 
             if event.type == pygame.QUIT :
                 run = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE or event.key == pygame.K_ESCAPE:
+                    if pause_menu(gameloop.screen):
+                        run = False
