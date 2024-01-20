@@ -2,7 +2,7 @@ from globals import *
 import pygame
 from button import *
 from game import *
-
+from settingsdata import *
 pygame.init()
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -35,7 +35,8 @@ def main_menu():
     quit_button = Button(SCREEN_WIDTH * 0.5, quit_button_height, quit_img, quit_img_colored, button_scale)
 
     buttons = [play_button, settings_button, quit_button]
-    selected_index = 0
+
+    settings = Settings()
 
     while run:
         screen.fill((0,0,0))
@@ -50,7 +51,8 @@ def main_menu():
                 run = False
             if (action and play_button.selected):
                 launch_game()
-
+            if (action and settings_button.selected):
+                settings.menu(screen)
         pygame.display.update()
 
 
