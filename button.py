@@ -13,23 +13,25 @@ class Button():
 
     def draw(self, surface):
         action = False
+		#get mouse position
+        pos = pygame.mouse.get_pos()
 
-        img = self.img
-
-        if (self.selected):
-            img = self.colored_img
-            for event in pygame.event.get() :
-                if(event.type==pygame.KEYDOWN):
-                    if (event.key==pygame.K_RETURN):
-                        self.clicked = True
-                        action = True
-
+		#check mouseover and clicked conditions
+        if self.rect.collidepoint(pos):
+            self.selected = True
+            if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
+                self.clicked = True
+                action = True
         else:
-            img = self.img
-        
-        if (pygame.mouse.get_pressed()[0] == 0):
+            self.selected = False
+
+        if pygame.mouse.get_pressed()[0] == 0:
             self.clicked = False
 
+        img = self.img
+        if (self.selected):
+            img = self.colored_img
+		#draw button on screen
         surface.blit(img, (self.rect.x, self.rect.y))
 
         return action

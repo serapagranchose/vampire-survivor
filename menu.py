@@ -1,6 +1,7 @@
 from globals import *
 import pygame
 import button
+from game import *
 
 pygame.init()
 
@@ -42,27 +43,13 @@ def main_menu():
         for event in pygame.event.get() : 
             if event.type == pygame.QUIT :
                 run = False
-            if(event.type==pygame.KEYDOWN):
-                if (event.key==pygame.K_DOWN):
-                    buttons[selected_index].selected = False
-                    selected_index += 1
-                    if (selected_index > len(buttons) - 1):
-                        selected_index = 0
-                    buttons[selected_index].selected = True
-                if (event.key==pygame.K_UP):
-                    buttons[selected_index].selected = False
-                    selected_index -= 1
-                    if (selected_index < 0):
-                        selected_index = len(buttons) - 1
-                    buttons[selected_index].selected = True
 
         for menu_button in buttons:
             action = menu_button.draw(screen)
-            if (action and quit_button.selected == True):
+            if (action and quit_button.selected):
                 run = False
-            if (action and play_button.selected == True):
-                pass
-
+            if (action and play_button.selected):
+                launch_game()
 
         pygame.display.update()
 

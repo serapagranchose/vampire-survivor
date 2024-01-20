@@ -5,10 +5,6 @@ from obstacle import Obstacle
 from player import Player
 import pygame
 
-pygame.init()
-
-score = 0
-
 # def clean(score):
 #     for ob in obs:
 #         if ob.entity.bottom >= (SCREEN_HEIGHT) :
@@ -25,41 +21,34 @@ score = 0
 # font.set_underline(True)
 # text = font.render('Hello Everyone!',True,(255,255,255))#This creates a new Surface with the specified text rendered on it
 # textrect = text.get_rect()
-gameloop = GameLoop()
-gameloop.addEnemy(Obstacle())
-run = True
-tick = 0
-while run :
-    # text = font.render(f'Score : {score}',True,(255,255,255))
+def launch_game():
+    gameloop = GameLoop()
+    gameloop.addEnemy(Obstacle())
+    run = True
+    tick = 0
+    while run :
+        # text = font.render(f'Score : {score}',True,(255,255,255))
 
-    # screen.blit(text, textrect)
-    tick = tick + 1 if tick < 1000 else 0
+        # screen.blit(text, textrect)
+        tick = tick + 1 if tick < 1000 else 0
 
-    # if (tick % 10) == 0 :
-    #     for ob in obs :
-    #         ob.update()
-    #         if player.check_col(ob.entity) :
-    #             run = True
+        # if (tick % 10) == 0 :
+        #     for ob in obs :
+        #         ob.update()
+        #         if player.check_col(ob.entity) :
+        #             run = True
 
-    # if (tick == -1):
-    #     obs.append(Obstacle())
-    gameloop.tick(tick)
+        # if (tick == -1):
+        #     obs.append(Obstacle())
+        gameloop.tick(tick)
 
 
 
-    # score = clean(score)
-    # pygame.draw.rect(screen, (2, 2, 2), space)
-   
-    gameloop.display()
+        # score = clean(score)
+        # pygame.draw.rect(screen, (2, 2, 2), space)
     
-    for event in pygame.event.get() : 
-        if event.type == pygame.QUIT :
-            run = False
-
-  
-    
-
-
-print(score)
-pygame.quit()
-
+        gameloop.display()
+        
+        for event in pygame.event.get() : 
+            if event.type == pygame.QUIT :
+                run = False
