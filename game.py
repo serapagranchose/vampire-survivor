@@ -49,7 +49,7 @@ def launch_game(screen, sprite_sheet_image, load_sprite_sheets, flip):
         #     obs.append(Obstacle())
         gameloop.tick(tick)
 
-
+        gameloop.player.move(pygame.key.get_pressed())
 
         # score = clean(score)
         # pygame.draw.rect(screen, (2, 2, 2), space)
