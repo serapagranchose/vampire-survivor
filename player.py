@@ -12,9 +12,9 @@ class Player(pygame.sprite.Sprite) :
         self.animation_count = 0
         self.load_sprite_sheets = load_sprite_sheets
         self.flip = flip
+        self.sprite = self.load_sprite_sheets("characters", "MiniNobleMan", 32, 32, True)["idle_left"][0]
 
     def draw(self, win):
-        # self.sprite = self.load_sprite_sheets("characters", "MiniNobleMan", 32, 32, True)["idle_" + self.direction][0]
         win.blit(self.sprite, (self.rect.x, self.rect.y))
 
     def move(self, key):
