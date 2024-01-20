@@ -44,13 +44,14 @@ def launch_game(screen, sprite_sheet_image, load_sprite_sheets, flip, settings):
         # if (tick == -1):
         #     obs.append(Obstacle())
         gameloop.tick(tick)
-
+        gameloop.move(pygame.key.get_pressed())
+        gameloop.background.move(pygame.key.get_pressed())
         gameloop.player.move(pygame.key.get_pressed())
 
         # score = clean(score)
         # pygame.draw.rect(screen, (2, 2, 2), space)
     
-        gameloop.display(screen)
+        gameloop.display()
         
         for event in pygame.event.get() : 
             if event.type == pygame.QUIT :
