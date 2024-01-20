@@ -27,7 +27,7 @@ class GameLoop :
         self.move(key)
         
         if (len(self.enemy) < MAX_ENEMY) : 
-            self.addEnemy(Obstacle())
+            self.addEnemy(Obstacle(self.offset))
 
         if tick % 8 is 0 :
             for enemy in self.enemy : 
@@ -63,6 +63,7 @@ class GameLoop :
       
 
     def display_background(self) :
+        self.background.buildTiles(self.offset)
         for tile in self.background.tiles:
             self.screen.blit(self.background.image, tuple(map(lambda i, j: i + j, tile, (self.offset[0], self.offset[1]))))
 
