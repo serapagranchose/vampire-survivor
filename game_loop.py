@@ -87,7 +87,15 @@ class GameLoop :
                 self.enemy.remove(enemy)
 
     def create_bullet(self) :
-        self.proj.append(Bullet(2, 2, 20,20, 20, 10,10))
+        enemy = self.Find_Near()
+        self.proj.append(Bullet(SCREEN_WIDTH / 2 , SCREEN_HEIGHT / 2, 20,20, 20, enemy.x,enemy.y))
+
+    def Find_Near(self)  :
+        res = self.enemy[0]
+        for enemy in self.enemy :
+            if res.dist > enemy.dist : 
+                res = enemy
+        return res
      
 
 

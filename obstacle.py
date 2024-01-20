@@ -1,3 +1,4 @@
+from cmath import sqrt
 from random import *
 import pygame
 from globals import *
@@ -11,6 +12,7 @@ class Obstacle:
         self.entity = pygame.Rect((self.x, self.y, self.height, self.weight))
         self.speed = randint(0, MAX_SPEED)
         self.hp = 100
+        self.dist = 10000
 
     def getDirection(self, offset) :
         if (self.x < offset[0]) :
@@ -28,6 +30,7 @@ class Obstacle:
         y = self.y + offset[1]
         self.entity.x = x
         self.entity.y = y
+        self.dist =  sqrt((self.x - ( SCREEN_WIDTH/2 - offset[0]))**2 + (self.y - ( SCREEN_HEIGHT/2 - offset[1]))**2).real
 
     def getColor(self) : 
         if self.hp < 33 :
