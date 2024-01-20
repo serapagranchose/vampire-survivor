@@ -4,7 +4,7 @@ from button import *
 from game import *
 from os import listdir
 from os.path import isfile, join
-from settingsdata import *
+from settings import *
 
 pygame.init()
 
@@ -83,7 +83,7 @@ def main_menu():
             if (action and quit_button.selected):
                 run = False
             if (action and play_button.selected):
-                launch_game(screen, sprite_sheet_image, load_sprite_sheets, flip)
+                launch_game(screen, sprite_sheet_image, load_sprite_sheets, flip, settings)
             if (action and settings_button.selected):
                 settings.menu(screen)
         pygame.display.update()

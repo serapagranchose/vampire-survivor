@@ -6,12 +6,13 @@ from obstacle import Obstacle
 from player import Player
 
 class GameLoop : 
-    def __init__(self, sprite_sheet_image, load_sprite_sheets, flip) :
+    def __init__(self, sprite_sheet_image, load_sprite_sheets, flip, settings) :
         self.enemy = []
         self.player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, PLAYER_WIDTH, PLAYER_HEIGHT, pygame.Rect((SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, PLAYER_WIDTH, PLAYER_HEIGHT)), sprite_sheet_image, load_sprite_sheets, flip)
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.clock =  pygame.time.Clock()
         self.fps = 120
+        self.settings = settings
         self.offset = pygame.math.Vector2(0, 0)
         self.background = Background()
 
@@ -38,13 +39,13 @@ class GameLoop :
             
 
     def move(self, key) :
-        if key[pygame.K_z] == True or key[pygame.K_UP] == True:
+        if key[self.settings.up] == True or key[pygame.K_UP] == True:
             self.offset[1] += 1
-        if key[pygame.K_s] == True or key[pygame.K_DOWN] == True:
+        if key[self.settings.down] == True or key[pygame.K_DOWN] == True:
             self.offset[1] -= 1
-        if key[pygame.K_q] == True or key[pygame.K_LEFT] == True:
+        if key[self.settings.left] == True or key[pygame.K_LEFT] == True:
             self.offset[0] += 1
-        if key[pygame.K_d] == True  or key[pygame.K_RIGHT] == True:
+        if key[self.settings.right] == True  or key[pygame.K_RIGHT] == True:
             self.offset[0] -= 1
 
 

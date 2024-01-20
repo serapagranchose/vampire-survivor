@@ -23,8 +23,8 @@ score = 0
 # font.set_underline(True)
 # text = font.render('Hello Everyone!',True,(255,255,255))#This creates a new Surface with the specified text rendered on it
 # textrect = text.get_rect()
-def launch_game(screen, sprite_sheet_image, load_sprite_sheets, flip):
-    gameloop = GameLoop(sprite_sheet_image, load_sprite_sheets, flip)
+def launch_game(screen, sprite_sheet_image, load_sprite_sheets, flip, settings):
+    gameloop = GameLoop(sprite_sheet_image, load_sprite_sheets, flip, settings)
     gameloop.addEnemy(Obstacle())
     run = True
     tick = 0
