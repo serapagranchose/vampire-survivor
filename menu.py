@@ -2,6 +2,8 @@ from globals import *
 import pygame
 from button import *
 from game import *
+from os import listdir
+from os.path import isfile, join
 
 pygame.init()
 
