@@ -4,8 +4,6 @@ from obstacle import Obstacle
 from player import Player
 from background import Background
 import pygame
-from os import listdir
-from os.path import isfile, join
 
 pygame.init()
 
@@ -17,25 +15,13 @@ def clean(score):
             obs.remove(ob)
             score += 1
     return score
-
-def get_background(name):
-    image = pygame.image.load(join("assets", "backgrounds", name))
-    _, _, width, height = image.get_rect()
-    tiles = []
-
-    for i in range(SCREEN_WIDTH // width + 1):
-        for j in range(SCREEN_HEIGHT // height + 1):
-            pos = (i * width, j * height)
-            tiles.append(pos)
-
-    return tiles, image
     
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption(f'Score : ')
 clock = pygame.time.Clock()
 
 player = Player(pygame.Rect((400, 500, PLAYER_WIDTH, PLAYER_HEIGHT)))
-bg = Background(0, 0, pygame.Rect((0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)), get_background("plains.png"))
+background = Background(0, 0, pygame.Rect((0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)))
 space = pygame.Rect((0, 400, ZONE_WIDTH, ZONE_HEIGHT))
 font = pygame.font.SysFont('inkfree',30,italic=True,bold=True)#try inkfree, georgia,impact,dubai,arial
 
@@ -51,7 +37,7 @@ tick = 0
 obs = []
 
 while run :
-    bg.draw_background(screen)
+    background.draw(screen)
     text = font.render(f'Score : {score}',True,(255,255,255))
 
     screen.blit(text, textrect)
@@ -66,6 +52,7 @@ while run :
     if (tick == 0):
         obs.append(Obstacle())
     player.move(pygame.key.get_pressed())
+    background.move(pygame.key.get_pressed())
 
     score = clean(score)
     pygame.draw.rect(screen, (2, 2, 2), space)
