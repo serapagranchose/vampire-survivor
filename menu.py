@@ -4,6 +4,7 @@ from button import *
 from game import *
 from os import listdir
 from os.path import isfile, join
+from settings import *
 
 pygame.init()
 
@@ -67,7 +68,8 @@ def main_menu():
     quit_button = Button(SCREEN_WIDTH * 0.5, quit_button_height, quit_img, quit_img_colored, button_scale)
 
     buttons = [play_button, settings_button, quit_button]
-    selected_index = 0
+
+    settings = Settings()
 
     while run:
         screen.fill((0,0,0))
@@ -81,8 +83,9 @@ def main_menu():
             if (action and quit_button.selected):
                 run = False
             if (action and play_button.selected):
-                launch_game(screen, sprite_sheet_image, load_sprite_sheets, flip)
-
+                launch_game(screen, sprite_sheet_image, load_sprite_sheets, flip, settings)
+            if (action and settings_button.selected):
+                settings.menu(screen)
         pygame.display.update()
 
 

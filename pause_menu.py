@@ -9,7 +9,7 @@ def pause_menu(screen):
     font = pygame.font.SysFont('inkfree',50)#try inkfree, georgia,impact,dubai,arial
     text = font.render('Pause Menu',True,(255,255,255))
     textrect = text.get_rect()
-    print (text.get_height())
+    
     textrect.center = (SCREEN_WIDTH * 0.5, text.get_height() * 2)
 
     menu_img = pygame.image.load("./assets/buttons/menu/large/regular/Menu.png").convert_alpha()
