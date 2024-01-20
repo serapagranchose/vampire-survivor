@@ -1,5 +1,6 @@
 from math import *
 import pygame
+from background import Background
 from globals import *
 from obstacle import Obstacle
 from player import Player
@@ -13,6 +14,7 @@ class GameLoop :
         self.clock =  pygame.time.Clock()
         self.fps = 120
         self.offset = pygame.math.Vector2(0, 0)
+        self.background = Background()
 
 
     def addEnemy(self, enemy) :
@@ -33,7 +35,6 @@ class GameLoop :
                 res = self.player.check_col(enemy.entity)
                 if (res) : 
                     break
-                print(res)
             self.getDammage()
             self.kill()
         return res
@@ -51,12 +52,19 @@ class GameLoop :
 
 
     def display(self) : 
+
         pygame.display.update()
         self.screen.fill((0,0,0))
+        self.display_background()
         pygame.draw.rect(self.screen, self.player.color, self.player.entity)
         for enemy in self.enemy :
             pygame.draw.rect(self.screen, enemy.getColor(), enemy.entity)
         self.clock.tick(self.fps)
+      
+
+    def display_background(self) :
+        for tile in self.background.tiles:
+            self.screen.blit(self.background.image, tuple(map(lambda i, j: i + j, tile, (self.offset[0], self.offset[1]))))
 
     def getDammage(self) : 
         for enemy in self.enemy : 
