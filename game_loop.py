@@ -4,6 +4,10 @@ from background import Background
 from globals import *
 from obstacle import Obstacle
 from player import Player
+from shoot import Bullet
+
+
+red = 255,0,0
 
 
 class GameLoop : 
@@ -76,6 +80,9 @@ class GameLoop :
         for enemy in self.enemy:
             if enemy.hp <= 0:
                 self.enemy.remove(enemy)
+
+    def create_bullet(self) :
+        Bullet(red, 2, 2, 20,20, 20, 10,10)
      
 
 
