@@ -5,21 +5,18 @@ from globals import *
 from obstacle import Obstacle
 from player import Player
 
-
 class GameLoop : 
-    def __init__(self) :
+    def __init__(self, sprite_sheet_image, load_sprite_sheets, flip) :
         self.enemy = []
-        self.player = Player(pygame.Rect((SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, PLAYER_WIDTH, PLAYER_HEIGHT)))
+        self.player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, PLAYER_WIDTH, PLAYER_HEIGHT, pygame.Rect((SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, PLAYER_WIDTH, PLAYER_HEIGHT)), sprite_sheet_image, load_sprite_sheets, flip)
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.clock =  pygame.time.Clock()
         self.fps = 120
         self.offset = pygame.math.Vector2(0, 0)
         self.background = Background()
 
-
     def addEnemy(self, enemy) :
         self.enemy.append(enemy)
-    
 
     def tick(self, tick) :
         res = False
@@ -51,12 +48,12 @@ class GameLoop :
             self.offset[0] -= 1
 
 
-    def display(self) : 
+    def display(self, win) : 
 
         pygame.display.update()
         self.screen.fill((0,0,0))
         self.display_background()
-        pygame.draw.rect(self.screen, self.player.color, self.player.entity)
+        self.player.draw(win)
         for enemy in self.enemy :
             pygame.draw.rect(self.screen, enemy.getColor(), enemy.entity)
         self.clock.tick(self.fps)
