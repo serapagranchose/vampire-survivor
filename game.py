@@ -3,10 +3,8 @@ from game_loop import GameLoop
 from os.path import join
 from obstacle import Obstacle
 from globals import *
-from player import Player
 from pause_menu import pause_menu
 import pygame
-
 
 # def clean(score):
 #     for ob in obs:
@@ -17,6 +15,7 @@ import pygame
 
 # pygame.display.set_caption(f'Score : ')
 
+score = 0
 
 # space = pygame.Rect((0, 400, ZONE_WIDTH, ZONE_HEIGHT))
 # font = pygame.font.SysFont('inkfree',30,italic=True,bold=True)#try inkfree, georgia,impact,dubai,arial
@@ -24,8 +23,8 @@ import pygame
 # font.set_underline(True)
 # text = font.render('Hello Everyone!',True,(255,255,255))#This creates a new Surface with the specified text rendered on it
 # textrect = text.get_rect()
-def launch_game():
-    gameloop = GameLoop()
+def launch_game(screen, sprite_sheet_image, load_sprite_sheets, flip):
+    gameloop = GameLoop(sprite_sheet_image, load_sprite_sheets, flip)
     gameloop.addEnemy(Obstacle())
     run = True
     tick = 0
@@ -50,7 +49,7 @@ def launch_game():
         # score = clean(score)
         # pygame.draw.rect(screen, (2, 2, 2), space)
     
-        gameloop.display()
+        gameloop.display(screen)
         
         for event in pygame.event.get() : 
             if event.type == pygame.QUIT :
