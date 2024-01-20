@@ -1,3 +1,4 @@
+from game_loop import GameLoop
 from globals import *
 from asyncio import sleep
 from obstacle import Obstacle
@@ -8,64 +9,56 @@ pygame.init()
 
 score = 0
 
-def clean(score):
-    for ob in obs:
-        if ob.entity.bottom >= (SCREEN_HEIGHT) :
-            obs.remove(ob)
-            score += 1
-    return score
+# def clean(score):
+#     for ob in obs:
+#         if ob.entity.bottom >= (SCREEN_HEIGHT) :
+#             obs.remove(ob)
+#             score += 1
+#     return score
 
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption(f'Score : ')
-clock = pygame.time.Clock()
-
-player = Player(pygame.Rect((400, 500, PLAYER_WIDTH, PLAYER_HEIGHT)))
-space = pygame.Rect((0, 400, ZONE_WIDTH, ZONE_HEIGHT))
-font = pygame.font.SysFont('inkfree',30,italic=True,bold=True)#try inkfree, georgia,impact,dubai,arial
-
-font.set_underline(True)
-text = font.render('Hello Everyone!',True,(255,255,255))#This creates a new Surface with the specified text rendered on it
-textrect = text.get_rect()
-tmp = pygame.Rect((50, SCREEN_HEIGHT - 125, 50, 50))
-pygame.Rect((400, 500, PLAYER_WIDTH, PLAYER_HEIGHT)).bottomleft
+# pygame.display.set_caption(f'Score : ')
 
 
+# space = pygame.Rect((0, 400, ZONE_WIDTH, ZONE_HEIGHT))
+# font = pygame.font.SysFont('inkfree',30,italic=True,bold=True)#try inkfree, georgia,impact,dubai,arial
+
+# font.set_underline(True)
+# text = font.render('Hello Everyone!',True,(255,255,255))#This creates a new Surface with the specified text rendered on it
+# textrect = text.get_rect()
+gameloop = GameLoop()
+gameloop.addEnemy(Obstacle())
 run = True
 tick = 0
-obs = []
-
 while run :
-    screen.fill((0,0,0))
-    text = font.render(f'Score : {score}',True,(255,255,255))
+    # text = font.render(f'Score : {score}',True,(255,255,255))
 
-    screen.blit(text, textrect)
-    tick = tick + 1 if tick < 30 else 0
+    # screen.blit(text, textrect)
+    tick = tick + 1 if tick < 1000 else 0
 
-    if (tick % 10) == 0 :
-        for ob in obs :
-            ob.update()
-            if player.check_col(ob.entity) :
-                run = False
+    # if (tick % 10) == 0 :
+    #     for ob in obs :
+    #         ob.update()
+    #         if player.check_col(ob.entity) :
+    #             run = True
 
-    if (tick == 0):
-        obs.append(Obstacle())
-    player.move(pygame.key.get_pressed())
+    # if (tick == -1):
+    #     obs.append(Obstacle())
+    gameloop.tick(tick)
 
-    score = clean(score)
-    pygame.draw.rect(screen, (2, 2, 2), space)
-    for ob in obs : 
-        pygame.draw.rect(screen, ob.color, ob.entity)
+
+
+    # score = clean(score)
+    # pygame.draw.rect(screen, (2, 2, 2), space)
+   
+    gameloop.display()
     
-    pygame.draw.rect(screen, (255, 0, 0), player.entity)
-
     for event in pygame.event.get() : 
         if event.type == pygame.QUIT :
             run = False
 
   
-    pygame.display.update()
+    
 
-    clock.tick(180)
 
 print(score)
 pygame.quit()
