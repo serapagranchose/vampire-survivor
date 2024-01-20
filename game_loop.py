@@ -23,7 +23,7 @@ class GameLoop :
         key = pygame.key.get_pressed()
         self.move(key)
         
-        if (len(self.enemy) < 10) : 
+        if (len(self.enemy) < MAX_ENEMY) : 
             self.addEnemy(Obstacle())
 
         if tick % 8 is 0 :
@@ -52,14 +52,13 @@ class GameLoop :
         self.clock.tick(self.fps)
 
     def getDammage(self) : 
-        py, px =  SCREEN_WIDTH/2 - self.offset[0] , SCREEN_HEIGHT/2 - self.offset[1]
         for enemy in self.enemy : 
-            dist =  sqrt((enemy.entity.x - px)**2 + (enemy.entity.y - py)**2)
+            dist =  sqrt((enemy.x - ( SCREEN_WIDTH/2 - self.offset[0]))**2 + (enemy.y - ( SCREEN_HEIGHT/2 - self.offset[1]))**2)
+            print(dist)
             if (dist < 150) : 
                 enemy.hp -= 5
 
     def kill(self) : 
-        toRemove = []
         for enemy in self.enemy:
             if enemy.hp <= 0:
                 self.enemy.remove(enemy)
