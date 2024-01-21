@@ -6,12 +6,12 @@ from obstacle import Obstacle
 from player import Player
 
 class GameLoop : 
-    def __init__(self, sprite_sheet_image, load_sprite_sheets, flip, settings) :
+    def __init__(self,screen, sprite_sheet_image, load_sprite_sheets, flip, settings) :
         self.enemy = []
         self.player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, PLAYER_WIDTH, PLAYER_HEIGHT, pygame.Rect((SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, PLAYER_WIDTH, PLAYER_HEIGHT)), sprite_sheet_image, load_sprite_sheets, flip)
-        self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.clock =  pygame.time.Clock()
         self.fps = 120
+        self.screen = screen
         self.settings = settings
         self.offset = pygame.math.Vector2(0, 0)
         self.background = Background(0, 0)
@@ -22,7 +22,7 @@ class GameLoop :
     def tick(self, tick) :
         res = False
         key = pygame.key.get_pressed()
-        self.move
+        self.move(key)
         self.background.move(key)
         
         if (len(self.enemy) < MAX_ENEMY) : 

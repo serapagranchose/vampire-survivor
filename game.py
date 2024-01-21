@@ -25,7 +25,7 @@ score = 0
 # text = font.render('Hello Everyone!',True,(255,255,255))#This creates a new Surface with the specified text rendered on it
 # textrect = text.get_rect()
 def launch_game(screen, sprite_sheet_image, load_sprite_sheets, flip, settings):
-    gameloop = GameLoop(sprite_sheet_image, load_sprite_sheets, flip, settings)
+    gameloop = GameLoop(screen, sprite_sheet_image, load_sprite_sheets, flip, settings)
     gameloop.addEnemy(Obstacle())
     run = True
     tick = 0
@@ -37,7 +37,7 @@ def launch_game(screen, sprite_sheet_image, load_sprite_sheets, flip, settings):
         if res:
             break
         gameloop.player.move(pygame.key.get_pressed())
-        gameloop.display(screen)
+        gameloop.display()
         for event in pygame.event.get() : 
             if event.type == pygame.QUIT or res :
                 run = False
