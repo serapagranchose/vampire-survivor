@@ -6,6 +6,7 @@ from background import Background
 from globals import *
 from pause_menu import pause_menu
 import pygame
+from gameover import *
 
 # def clean(score):
 #     for ob in obs:
@@ -35,6 +36,7 @@ def launch_game(screen, load_sprite_sheets, flip, settings):
       
         res = gameloop.tick(tick)
         if res:
+            gameover(screen, gameloop.score)
             break
         gameloop.player.move(pygame.key.get_pressed())
         gameloop.display()
