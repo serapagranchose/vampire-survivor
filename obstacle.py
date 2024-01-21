@@ -27,7 +27,6 @@ class Obstacle:
             self.y -= self.speed
 
     def updatePos(self, offset) :
-        print(f'offset => {offset}')
         self.getDirection([SCREEN_WIDTH/2 - offset[0] , SCREEN_HEIGHT/2 - offset[1]])
         x = self.x + offset[0]
         y = self.y + offset[1]
