@@ -5,11 +5,13 @@ from globals import *
 
 
 class Obstacle: 
-    def __init__(self) :
+    def __init__(self, offset=(0,0)) :
         self.height = randint(10, 100)
         self.weight = randint(10, 100)
         self.x , self.y = START_POS[randint(0, 3)]
-        self.entity = pygame.Rect((self.x, self.y, self.height, self.weight))
+        self.x -= offset[0]
+        self.y -= offset[1]
+        self.entity = pygame.Rect((self.x, self.y , self.height, self.weight))
         self.speed = randint(0, MAX_SPEED)
         self.hp = 100
         self.dist = 10000
@@ -25,6 +27,7 @@ class Obstacle:
             self.y -= self.speed
 
     def updatePos(self, offset) :
+        print(f'offset => {offset}')
         self.getDirection([SCREEN_WIDTH/2 - offset[0] , SCREEN_HEIGHT/2 - offset[1]])
         x = self.x + offset[0]
         y = self.y + offset[1]

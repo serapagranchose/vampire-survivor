@@ -11,27 +11,28 @@ red = 255,0,0
 
 
 class GameLoop : 
-    def __init__(self) :
+    def __init__(self,screen, sprite_sheet_image, load_sprite_sheets, flip, settings) :
         self.enemy = []
         self.proj = []
-        self.player = Player(pygame.Rect((SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, PLAYER_WIDTH, PLAYER_HEIGHT)))
-        self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+        self.player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, PLAYER_WIDTH, PLAYER_HEIGHT, pygame.Rect((SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, PLAYER_WIDTH, PLAYER_HEIGHT)), sprite_sheet_image, load_sprite_sheets, flip)
         self.clock =  pygame.time.Clock()
         self.fps = 120
+        self.screen = screen
+        self.settings = settings
         self.offset = pygame.math.Vector2(0, 0)
-        self.background = Background()
+        self.background = Background(0, 0)
         self.bullet_cooldown = 0
         self.BULLET_COOLDOWN_TIME = 30
 
 
     def addEnemy(self, enemy) :
         self.enemy.append(enemy)
-    
 
     def tick(self, tick) :
         res = False
         key = pygame.key.get_pressed()
         self.move(key)
+        self.background.move(key)
         
         if (len(self.enemy) < MAX_ENEMY) : 
             self.addEnemy(Obstacle())
@@ -46,42 +47,36 @@ class GameLoop :
             for enemy in self.enemy : 
                 enemy.updatePos(self.offset)
                 res = self.player.check_col(enemy.entity)
-                if (res) : 
-                    break
+                if res : 
+                    print('returned')
+                    return True
             for proj in self.proj :
                 for enemy in self.enemy : 
                     proj.check_shoot(enemy)
             self.getDammage()
             self.kill()
         return res
-            
 
     def move(self, key) :
-        if key[pygame.K_z] == True or key[pygame.K_UP] == True:
+        if key[self.settings.up] == True or key[pygame.K_UP] == True:
             self.offset[1] += 1
-        if key[pygame.K_s] == True or key[pygame.K_DOWN] == True:
+        if key[self.settings.down] == True or key[pygame.K_DOWN] == True:
             self.offset[1] -= 1
-        if key[pygame.K_q] == True or key[pygame.K_LEFT] == True:
+        if key[self.settings.left] == True or key[pygame.K_LEFT] == True:
             self.offset[0] += 1
-        if key[pygame.K_d] == True  or key[pygame.K_RIGHT] == True:
+        if key[self.settings.right] == True  or key[pygame.K_RIGHT] == True:
             self.offset[0] -= 1
-
 
     def display(self) : 
         pygame.display.update()
         self.screen.fill((0,0,0))
-        self.display_background()
-        pygame.draw.rect(self.screen, self.player.color, self.player.entity)
+        self.background.draw(self.screen)
+        self.player.draw(self.screen)
         for enemy in self.enemy :
             pygame.draw.rect(self.screen, enemy.getColor(), enemy.entity)
         for proj in self.proj : 
             proj.draw(self.screen)
         self.clock.tick(self.fps)
-      
-
-    def display_background(self) :
-        for tile in self.background.tiles:
-            self.screen.blit(self.background.image, tuple(map(lambda i, j: i + j, tile, (self.offset[0], self.offset[1]))))
 
     def getDammage(self) : 
         for enemy in self.enemy : 
