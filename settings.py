@@ -17,7 +17,6 @@ class Settings():
         font = pygame.font.SysFont('inkfree',50)#try inkfree, georgia,impact,dubai,arial
         text = font.render('Pause Menu',True,(255,255,255))
         textrect = text.get_rect()
-        print (text.get_height())
         textrect.center = (SCREEN_WIDTH * 0.5, text.get_height() * 2)
 
         right_img = pygame.image.load("./assets/buttons/menu/square/regular/right.png").convert_alpha()
@@ -25,8 +24,6 @@ class Settings():
         button_scale = (right_img.get_height() / SCREEN_HEIGHT) * 1.5
 
         font = pygame.font.SysFont('inkfree',50)#try inkfree, georgia,impact,dubai,arial
-
-        print(pygame.key.name(pygame.K_u))
 
         keybinds_button_width = SCREEN_WIDTH * 0.15
         keybinds_text_width = keybinds_button_width + 200

@@ -2,9 +2,11 @@ from game_loop import GameLoop
 from game_loop import GameLoop
 from os.path import join
 from obstacle import Obstacle
+from background import Background
 from globals import *
 from pause_menu import pause_menu
 import pygame
+from gameover import *
 
 # def clean(score):
 #     for ob in obs:
@@ -23,36 +25,23 @@ score = 0
 # font.set_underline(True)
 # text = font.render('Hello Everyone!',True,(255,255,255))#This creates a new Surface with the specified text rendered on it
 # textrect = text.get_rect()
-def launch_game(screen, sprite_sheet_image, load_sprite_sheets, flip):
-    gameloop = GameLoop(sprite_sheet_image, load_sprite_sheets, flip)
+def launch_game(screen, sprite_sheet_image, load_sprite_sheets, flip, settings):
+    gameloop = GameLoop(screen, sprite_sheet_image, load_sprite_sheets, flip, settings)
     gameloop.addEnemy(Obstacle())
     run = True
     tick = 0
     while run :
-        # text = font.render(f'Score : {score}',True,(255,255,255))
-
-        # screen.blit(text, textrect)
         tick = tick + 1 if tick < 1000 else 0
 
-        # if (tick % 10) == 0 :
-        #     for ob in obs :
-        #         ob.update()
-        #         if player.check_col(ob.entity) :
-        #             run = True
-
-        # if (tick == -1):
-        #     obs.append(Obstacle())
-        gameloop.tick(tick)
-
+      
+        res = gameloop.tick(tick)
+        if res:
+            gameover(screen, 45)
+            break
         gameloop.player.move(pygame.key.get_pressed())
-
-        # score = clean(score)
-        # pygame.draw.rect(screen, (2, 2, 2), space)
-    
-        gameloop.display(screen)
-        
+        gameloop.display()
         for event in pygame.event.get() : 
-            if event.type == pygame.QUIT :
+            if event.type == pygame.QUIT or res :
                 run = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE or event.key == pygame.K_ESCAPE:
