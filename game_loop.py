@@ -20,6 +20,8 @@ class GameLoop :
         self.fps = 120
         self.offset = pygame.math.Vector2(0, 0)
         self.background = Background()
+        self.bullet_cooldown = 0
+        self.BULLET_COOLDOWN_TIME = 30
 
 
     def addEnemy(self, enemy) :
@@ -33,8 +35,11 @@ class GameLoop :
         
         if (len(self.enemy) < MAX_ENEMY) : 
             self.addEnemy(Obstacle())
-        if key[pygame.K_SPACE] :
+        self.bullet_cooldown = max(0, self.bullet_cooldown - 1)
+
+        if self.bullet_cooldown == 0:
             self.create_bullet()
+            self.bullet_cooldown = self.BULLET_COOLDOWN_TIME
         if tick % 8 is 0 :
             for proj in self.proj : 
                 proj.move()

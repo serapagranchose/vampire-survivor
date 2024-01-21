@@ -1,4 +1,4 @@
-import pygame, math, random
+import pygame, math, random,time
 
 from globals import PROJ_COLOR
 
