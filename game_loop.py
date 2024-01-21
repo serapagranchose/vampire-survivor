@@ -48,7 +48,6 @@ class GameLoop :
                 enemy.updatePos(self.offset)
                 res = self.player.check_col(enemy.entity)
                 if res : 
-                    print('returned')
                     return True
             for proj in self.proj :
                 for enemy in self.enemy : 

@@ -44,13 +44,11 @@ class Player(pygame.sprite.Sprite) :
 
 
     def check_col(self, obstacle):
-        print(self.entity.right, self.entity.left)
         if  ((
             self.entity.right <= obstacle.right and self.entity.right >= obstacle.left
              ) or (self.entity.left >= obstacle.left and self.entity.left <= obstacle.right
                    )) and ((self.entity.top >= obstacle.top and self.entity.top <= obstacle.bottom
                        ) or (self.entity.bottom <= obstacle.bottom and self.entity.bottom >= obstacle.top)): 
-            print('COOOOOL')
             return True
         return False
 
