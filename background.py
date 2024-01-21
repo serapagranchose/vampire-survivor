@@ -20,11 +20,11 @@ class Background(pygame.sprite.Sprite) :
     def move(self, key):
         if key[pygame.K_z] == True or key[pygame.K_UP] == True:
             self.y -= 1
-            if self.x % 16 == 0:
+            if self.y % 16 == 0:
                 self.generate_tile_inbound('up')
         if key[pygame.K_s] == True or key[pygame.K_DOWN] == True:
             self.y += 1
-            if self.x % 16 == 0:
+            if self.y % 16 == 0:
                 self.generate_tile_inbound('down')
         if key[pygame.K_q] == True or key[pygame.K_LEFT] == True:
             self.x -= 1
