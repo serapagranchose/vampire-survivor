@@ -10,17 +10,24 @@ class Obstacle:
         self.x -= offset[0]
         self.y -= offset[1]
         self.entity = pygame.Rect(self.x, self.y, 32, 32)
-        self.speed = randint(0, MAX_SPEED)
         self.hp = 100
         self.dist = 10000
         self.direction = "left"
         self.animation_count = 0
         self.load_sprite_sheets = load_sprite_sheets
         self.flip = flip
-        self.sprite = self.load_sprite_sheets("characters", "MiniNobleMan", 32, 32, True)["idle_left"][0]
+        self.name = self.charette_or_monsieur(0.2)
+        self.sprite = self.load_sprite_sheets("characters", self.name, 64 if self.name == "MiniCharette" else 32, 32, True)["idle_left"][0]
+        self.speed = randint(0, MAX_SPEED) if self.name == "MiniNobleMan" else 8
 
     def draw(self, win):
         win.blit(self.sprite, (self.entity.x, self.entity.y))
+
+    def charette_or_monsieur(self, charette_chance):
+        if random() < charette_chance:
+            return "MiniCharette"
+        else:
+            return "MiniNobleMan"
 
     def getDirection(self, offset) :
         sprite_sheet = "idle"
@@ -38,7 +45,7 @@ class Obstacle:
             self.y -= self.speed
 
         sprite_sheet_name = sprite_sheet + "_" + self.direction
-        sprites = self.load_sprite_sheets("characters", "MiniNobleMan", 32, 32, True)[sprite_sheet_name]
+        sprites = self.load_sprite_sheets("characters", self.name, 64 if self.name == "MiniCharette" else 32, 32, True)[sprite_sheet_name]
         sprite_index = (self.animation_count // (round(self.speed) + 1) % len(sprites))
         self.sprite = sprites[sprite_index]
         self.animation_count += 1
