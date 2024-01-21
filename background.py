@@ -14,7 +14,6 @@ class Background(pygame.sprite.Sprite) :
 
     def draw(self, win):
         for tile in self.tiles:
-            #win.blit(self.image, tile)
             win.blit(self.image, tuple(map(lambda i, j: i - j, tile, (self.x, self.y))))
         
     def move(self, key):

@@ -4,18 +4,16 @@ from globals import *
 class Player(pygame.sprite.Sprite) :
     ANIMATION_DELAY = 10
 
-    def __init__(self, x, y, width, height, entity, sheet, load_sprite_sheets, flip):
-        self.rect = pygame.Rect(x, y, width, height)
-        self.entity = entity
-        self.sheet = sheet
+    def __init__(self, x, y, load_sprite_sheets, flip):
+        self.entity = pygame.Rect((x, y, PLAYER_WIDTH, PLAYER_HEIGHT))
         self.direction = "left"
         self.animation_count = 0
         self.load_sprite_sheets = load_sprite_sheets
         self.flip = flip
-        self.sprite = self.load_sprite_sheets("characters", "MiniNobleMan", 32, 32, True)["idle_left"][0]
+        self.sprite = self.load_sprite_sheets("characters", "MiniDemon", 32, 32, True)["idle_left"][0]
 
     def draw(self, win):
-        win.blit(self.sprite, (self.rect.x, self.rect.y))
+        win.blit(self.sprite, (self.entity.x, self.entity.y))
 
     def move(self, key):
         sprite_sheet = "idle"
@@ -35,7 +33,7 @@ class Player(pygame.sprite.Sprite) :
                 self.animation_count = 0
 
         sprite_sheet_name = sprite_sheet + "_" + self.direction
-        sprites = self.load_sprite_sheets("characters", "MiniNobleMan", 32, 32, True)[sprite_sheet_name]
+        sprites = self.load_sprite_sheets("characters", "MiniDemon", 32, 32, True)[sprite_sheet_name]
         sprite_index = (self.animation_count // self.ANIMATION_DELAY % len(sprites))
         self.sprite = sprites[sprite_index]
         self.animation_count += 1

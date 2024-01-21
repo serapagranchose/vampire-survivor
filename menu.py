@@ -15,9 +15,6 @@ font.set_underline(True)
 
 pygame.Rect((400, 500, PLAYER_WIDTH, PLAYER_HEIGHT)).bottomleft
 
-
-sprite_sheet_image = pygame.image.load('./assets/characters/MiniNobleMan.png').convert_alpha()
-
 def flip(sprites):
     return [pygame.transform.flip(sprite, True, False) for sprite in sprites]
 
@@ -83,7 +80,7 @@ def main_menu():
             if (action and quit_button.selected):
                 run = False
             if (action and play_button.selected):
-                launch_game(screen, sprite_sheet_image, load_sprite_sheets, flip, settings)
+                launch_game(screen, load_sprite_sheets, flip, settings)
             if (action and settings_button.selected):
                 settings.menu(screen)
         pygame.display.update()
