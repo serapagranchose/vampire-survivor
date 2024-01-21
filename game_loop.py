@@ -43,6 +43,9 @@ class GameLoop :
                 res = self.player.check_col(enemy.entity)
                 if (res) : 
                     break
+            for proj in self.proj :
+                for enemy in self.enemy : 
+                    proj.check_shoot(enemy)
             self.getDammage()
             self.kill()
         return res
@@ -88,9 +91,13 @@ class GameLoop :
 
     def create_bullet(self) :
         enemy = self.Find_Near()
-        self.proj.append(Bullet(SCREEN_WIDTH / 2 , SCREEN_HEIGHT / 2, 20,20, 20, enemy.x,enemy.y))
+        if not enemy :
+            return
+        self.proj.append(Bullet(SCREEN_WIDTH / 2 , SCREEN_HEIGHT / 2, 20,20, 20, enemy.x + self.offset[0] ,enemy.y + self.offset[1]))
 
     def Find_Near(self)  :
+        if len(self.enemy) is 0 :
+            return False
         res = self.enemy[0]
         for enemy in self.enemy :
             if res.dist > enemy.dist : 
