@@ -22,7 +22,7 @@ class GameLoop :
         self.offset = pygame.math.Vector2(0, 0)
         self.background = Background(0, 0)
         self.bullet_cooldown = 0
-        self.BULLET_COOLDOWN_TIME = 30
+        self.BULLET_COOLDOWN_TIME = 70
 
 
     def addEnemy(self, enemy) :
