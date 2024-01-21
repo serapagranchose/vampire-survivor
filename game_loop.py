@@ -6,12 +6,12 @@ from obstacle import Obstacle
 from player import Player
 from bullet import Bullet
 
-
 red = 255,0,0
 
 
 class GameLoop : 
     def __init__(self,screen, sprite_sheet_image, load_sprite_sheets, flip, settings) :
+        font = pygame.font.SysFont('inkfree',50)#try inkfree, georgia,impact,dubai,arial
         self.enemy = []
         self.proj = []
         self.player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, PLAYER_WIDTH, PLAYER_HEIGHT, pygame.Rect((SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, PLAYER_WIDTH, PLAYER_HEIGHT)), sprite_sheet_image, load_sprite_sheets, flip)
@@ -23,6 +23,10 @@ class GameLoop :
         self.background = Background(0, 0)
         self.bullet_cooldown = 0
         self.BULLET_COOLDOWN_TIME = 70
+        self.score = 0
+        self.score_text = font.render("Score:" + str(self.score) ,True,(255,255,255))
+        self.score_rect = self.score_text.get_rect()
+        self.score_rect.center = (SCREEN_WIDTH * 0.15, self.score_text.get_height() * 2)
 
 
     def addEnemy(self, enemy) :
@@ -66,8 +70,10 @@ class GameLoop :
         if key[self.settings.right] == True  or key[pygame.K_RIGHT] == True:
             self.offset[0] -= 1
 
-    def display(self) : 
+    def display(self) :
+        font = pygame.font.SysFont('inkfree',50)#try inkfree, georgia,impact,dubai,arial
         pygame.display.update()
+        self.score_text = font.render("Score: " + str(self.score) ,True,(0,0,0))
         self.screen.fill((0,0,0))
         self.background.draw(self.screen)
         self.player.draw(self.screen)
@@ -75,6 +81,7 @@ class GameLoop :
             pygame.draw.rect(self.screen, enemy.getColor(), enemy.entity)
         for proj in self.proj : 
             proj.draw(self.screen)
+        self.screen.blit(self.score_text, self.score_rect)
         self.clock.tick(self.fps)
 
     def getDammage(self) : 
@@ -87,6 +94,8 @@ class GameLoop :
         for enemy in self.enemy:
             if enemy.hp <= 0:
                 self.enemy.remove(enemy)
+                self.score += 1
+
 
     def create_bullet(self) :
         enemy = self.Find_Near()

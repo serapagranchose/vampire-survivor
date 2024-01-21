@@ -36,7 +36,7 @@ def launch_game(screen, sprite_sheet_image, load_sprite_sheets, flip, settings):
       
         res = gameloop.tick(tick)
         if res:
-            gameover(screen, 45)
+            gameover(screen, gameloop.score)
             break
         gameloop.player.move(pygame.key.get_pressed())
         gameloop.display()
