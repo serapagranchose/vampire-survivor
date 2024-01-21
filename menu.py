@@ -4,9 +4,14 @@ from button import *
 from game import *
 from os import listdir
 from os.path import isfile, join
-from settingsdata import *
+from settings import *
+from gameover import *
 
 pygame.init()
+
+pygame.mixer.init()
+pygame.mixer.music.load("./assets/music/80stheme.mp3")
+pygame.mixer.music.play(loops=-1, fade_ms=2000)
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 font = pygame.font.SysFont('inkfree',30,italic=True,bold=True)#try inkfree, georgia,impact,dubai,arial
@@ -87,7 +92,6 @@ def main_menu():
             if (action and settings_button.selected):
                 settings.menu(screen)
         pygame.display.update()
-
 
 main_menu()
 
